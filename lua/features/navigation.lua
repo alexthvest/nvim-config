@@ -13,6 +13,15 @@ require("snacks").setup({
   picker = {
     enabled = true,
     layout = "ivy_split",
+    sources = {
+      select = {
+        kinds = {
+          codeaction = {
+            layout = { preset = "ivy", preview = false },
+          },
+        },
+      },
+    },
     win = {
       input = {
         b = {
@@ -28,6 +37,10 @@ require("snacks").setup({
 
 require("oil").setup({
   default_file_explorer = true,
+  watch_for_changes = true,
+  view_options = {
+    show_hidden = true
+  }
 })
 
 vim.keymap.set("n", "<leader>f", function()
@@ -52,4 +65,8 @@ vim.keymap.set("n", "<leader>d", function()
   require("oil").open()
 end, {
   desc = "Open directory",
+})
+
+vim.keymap.set({ "n", "x" }, "<Esc>", "<Esc><cmd>nohlsearch<CR>", {
+  desc = "Clear selection and search highlighting",
 })

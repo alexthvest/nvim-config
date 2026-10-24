@@ -6,6 +6,9 @@ vim.pack.add({
   {
     src = "https://github.com/sschleemilch/slimline.nvim",
   },
+  -- {
+  --   src = "https://github.com/MeanderingProgrammer/render-markdown.nvim",
+  -- },
 }, {
   confirm = false,
 })

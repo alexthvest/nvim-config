@@ -13,6 +13,37 @@ local profiles = require("languages")
 local formatters_by_ft = {}
 local options_by_ft = {}
 
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(event)
+    local keymaps = {
+      { "n", "gd", vim.lsp.buf.definition, "Go to definition" },
+      { "n", "gr", vim.lsp.buf.references, "Go to references" },
+      { "n", "gi", vim.lsp.buf.implementation, "Go to implementation" },
+      { "n", "<leader>a", vim.lsp.buf.code_action, "Code action" },
+      { "n", "K", vim.lsp.buf.hover, "Show documentation" },
+      { "i", "<C-k>", vim.lsp.buf.signature_help, "Show signature help" },
+      {
+        "n",
+        "<leader>F",
+        function()
+          require("conform").format({
+            async = true,
+            lsp_format = "fallback",
+          })
+        end,
+        "Format buffer",
+      },
+    }
+
+    for _, keymap in ipairs(keymaps) do
+      vim.keymap.set(keymap[1], keymap[2], keymap[3], {
+        buffer = event.buf,
+        desc = "LSP: " .. keymap[4],
+      })
+    end
+  end,
+})
+
 for _, profile in ipairs(profiles) do
   local lsp_config = vim.tbl_deep_extend("force", {
     filetypes = vim.deepcopy(profile.filetypes),
